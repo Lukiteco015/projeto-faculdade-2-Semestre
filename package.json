@@ -1,0 +1,22 @@
+{
+  "name": "projeto-faculdade-2-semestre",
+  "version": "1.0.0",
+  "description": "Nosso projeto é uma plataforma que conecta motoristas e passageiros, oferecendo uma experiência de transporte segura e prática. Com funcionalidades como gestão de corridas, navegação integrada, histórico de ganhos e avaliações, o app facilita o dia a dia dos motoristas, garantindo qualidade e conveniência para todos os usuários.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.9.0",
+    "prisma": "^5.22.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.3"
+  },
+  "dependencies": {
+    "express": "^4.21.1"
+  }
+}
