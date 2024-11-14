@@ -1,17 +1,14 @@
 const mongoose = require('mongoose');
-const DB_URI = 'mongodb://localhost:27017/TCC';
+const DB_URI = 'mongodb+srv://lucasrofran15:lukitinhas2021@banco-tcc.czujq.mongodb.net/://localhost:27017/TCC';
 
-const conectarBanco = async () => {
-  try {
-    await mongoose.connect(DB_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
-    console.log('Conexão com o banco de dados TCC estabelecida com sucesso!');
-  } catch (error) {
-    console.error('Erro ao conectar com o banco de dados:', error);
-    process.exit(1);
-  }
+const conectarBanco = () => {
+  mongoose.connect(DB_URI)
+  .then(() => {
+    console.log("Conectado ao MongoDB com sucesso!");
+  })
+  .catch(err => {
+    console.error("Erro encontrado: ", err);
+  });
 };
 
 module.exports = conectarBanco;

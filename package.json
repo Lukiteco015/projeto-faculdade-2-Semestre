@@ -17,6 +17,16 @@
     "typescript": "^5.6.3"
   },
   "dependencies": {
-    "express": "^4.21.1"
+    "bcrypt": "^5.1.1",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "geolib": "^3.3.4",
+    "jsonwebtoken": "^9.0.2",
+    "moment-timezone": "^0.5.46",
+    "mongoose": "^8.8.1",
+    "node-fetch": "^2.7.0",
+    "opencage-api-client": "^1.0.7"
   }
 }
