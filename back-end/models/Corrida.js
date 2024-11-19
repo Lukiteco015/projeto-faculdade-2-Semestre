@@ -16,11 +16,11 @@ const corridaSchema = new mongoose.Schema({
     ref: 'Agendamento',
     required: true
   },*/
-  cepOrigem: {
+  enderecoOrigem: {
     type: String,
     required: true
   },
-  cepDestino: {
+  enderecoDestino: {
     type:String,
     required: true
   },

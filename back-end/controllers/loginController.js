@@ -1,4 +1,5 @@
 const bcrypt = require('bcryptjs');
+const Motorista = require('../models/Motorista');
 
 
 exports.loginMotorista = async (req, res) => {

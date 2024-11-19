@@ -1,24 +1,9 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const Motorista = require('../models/Motorista');
+const Veiculo = require('../models/Veiculo');
 
-const JWT_SECRET = 'seuSegredoAqui'; // Defina o segredo diretamente aqui
-
-exports.loginMotorista = async (req, res) => {
-  const { email, senha } = req.body;
-  if (!email || !senha) return res.status(400).json({ mensagem: 'Email e senha são obrigatórios' });
-
-  try {
-    const motorista = await Motorista.findOne({ email });
-    if (!motorista || !(await bcrypt.compare(senha, motorista.senha))) 
-      return res.status(401).json({ mensagem: 'Email ou senha inválidos' });
-
-    const token = jwt.sign({ id: motorista._id }, JWT_SECRET, { expiresIn: '1h' });
-    res.status(200).json({ mensagem: 'Login bem-sucedido', token });
-  } catch (err) {
-    res.status(500).json({ mensagem: 'Erro ao tentar fazer login', erro: err.message });
-  }
-};
+const JWT_SECRET = 'Luketa';
 
 exports.criarMotoristaEVeiculo = async (req, res) => {
   try {
