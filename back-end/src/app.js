@@ -5,6 +5,7 @@ const conectarBanco = require('../config/databaseconfig');
 
 const corridaRoute = require('../routes/corridaRoute');
 const motoristaRoute = require('../routes/motoristaRoute');
+const clienteRoute = require('../routes/clienteRoute');
 
 const app = express();
 
@@ -15,6 +16,7 @@ conectarBanco();
 
 app.use('/api/corridas', corridaRoute);
 app.use('/api/motorista', motoristaRoute);
+app.use('/api/cliente', clienteRoute);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
