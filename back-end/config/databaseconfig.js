@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const DB_URI = 'mongodb+srv://lucasrofran15:lukitinhas2021@banco-tcc.czujq.mongodb.net/://localhost:27017/TCC';
+const DB_URI = 'mongodb://localhost:27017/';
 
 const conectarBanco = () => {
   mongoose.connect(DB_URI)
