@@ -1,39 +1,48 @@
 const moment = require('moment-timezone');
-const { calculateDistanceBetweenAddresses } = require('../config/geocoding');  // Atualize para usar a função de endereços
+const { calculateDistanceBetweenAddresses } = require('../config/geocoding');
 const Corrida = require('../models/Corrida');
+const jwt = require('jsonwebtoken');
 
 exports.criarCorrida = async (req, res) => {
   try {
-    const { enderecoOrigem, enderecoDestino, tarifaBase, tarifaPorKm } = req.body;
+    const { enderecoOrigem, enderecoDestino, tarifaPorKm } = req.body;
 
-    // Validação dos dados
-    if (!enderecoOrigem || !enderecoDestino || !tarifaBase || !tarifaPorKm) {
+    if (!enderecoOrigem || !enderecoDestino || !tarifaPorKm) {
       return res.status(400).json({ error: 'Por favor, forneça todos os campos obrigatórios.' });
     }
 
-    // Obter a data e hora atual do fuso horário de São Paulo
-    const datahora = moment.tz('America/Sao_Paulo').toDate();  // Hora local de São Paulo
+    const token = req.headers.authorization?.split(' ')[1];
+    if (!token) {
+      return res.status(401).json({ error: 'Token não fornecido ou inválido' });
+    }
 
-    // Calcular a distância entre os endereços
+    let motoristaId;
+    try {
+      const decoded = jwt.verify(token, process.env.SECRET_KEY);
+      motoristaId = decoded.id
+    } catch (err) {
+      return res.status(401).json({ error: 'Token inválido ou expirado' });
+    }
+
+    const datahora = moment.tz('America/Sao_Paulo').toDate();
+
     const distancia = await calculateDistanceBetweenAddresses(enderecoOrigem, enderecoDestino);
 
     if (distancia <= 0) {
       return res.status(400).json({ error: 'Distância inválida entre os endereços.' });
     }
 
-    // Calcular o preço total da corrida
-    const precoTotal = (distancia * tarifaPorKm) + tarifaBase;
+    const precoTotal = distancia * tarifaPorKm;
 
-    // Criando a nova corrida
     const novaCorrida = new Corrida({
-      enderecoOrigem,  // Usando os endereços completos
+      enderecoOrigem,
       enderecoDestino,
       distancia,
       status: 'Em Andamento',
-      datahora,  // Usando a data atual do fuso horário de São Paulo
+      datahora,
       tarifaPorKm,
-      tarifaBase,
-      precoTotal
+      precoTotal,
+      motorista: motoristaId
     });
 
     await novaCorrida.save();

@@ -1,9 +1,5 @@
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
 const Motorista = require('../models/Motorista');
 const Veiculo = require('../models/Veiculo');
-
-const JWT_SECRET = 'Luketa';
 
 exports.criarMotoristaEVeiculo = async (req, res) => {
   try {

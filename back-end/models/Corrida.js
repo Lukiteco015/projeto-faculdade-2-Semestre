@@ -5,12 +5,12 @@ const corridaSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Cliente',
     required: true
-  },
-  idmotorista: {
+  },*/
+  motorista: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Motorista',
     required: true
-  },
+  },/*
   idagendamento: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Agendamento',
@@ -46,10 +46,6 @@ const corridaSchema = new mongoose.Schema({
     type: Number,
     required: true
   },
-  tarifaBase: {
-    type: Number,
-    required: true
-  }
 });
 
 module.exports = mongoose.model('Corrida', corridaSchema);
