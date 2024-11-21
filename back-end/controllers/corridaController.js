@@ -1,11 +1,12 @@
 const moment = require('moment-timezone');
 const { calculateDistanceBetweenAddresses } = require('../config/geocoding');
 const Corrida = require('../models/Corrida');
+const Cliente = require('../models/Cliente');
 const jwt = require('jsonwebtoken');
 
 exports.criarCorrida = async (req, res) => {
   try {
-    const { enderecoOrigem, enderecoDestino, tarifaPorKm } = req.body;
+    const { enderecoOrigem, enderecoDestino, tarifaPorKm, nomeCliente } = req.body;
 
     if (!enderecoOrigem || !enderecoDestino || !tarifaPorKm) {
       return res.status(400).json({ error: 'Por favor, forneça todos os campos obrigatórios.' });
@@ -19,9 +20,23 @@ exports.criarCorrida = async (req, res) => {
     let motoristaId;
     try {
       const decoded = jwt.verify(token, process.env.SECRET_KEY);
-      motoristaId = decoded.id
+      motoristaId = decoded.id;
     } catch (err) {
       return res.status(401).json({ error: 'Token inválido ou expirado' });
+    }
+
+    // Buscar o ID do cliente pelo nome (usando $regex para buscar de forma aproximada)
+    let clienteId = null;
+    if (nomeCliente) {
+      const cliente = await Cliente.findOne({
+        nome: { $regex: nomeCliente, $options: 'i' }  // $options: 'i' faz a busca ser case-insensitive
+      });
+
+      if (cliente) {
+        clienteId = cliente._id;
+      } else {
+        return res.status(404).json({ error: 'Cliente não encontrado com esse nome.' });
+      }
     }
 
     const datahora = moment.tz('America/Sao_Paulo').toDate();
@@ -42,7 +57,8 @@ exports.criarCorrida = async (req, res) => {
       datahora,
       tarifaPorKm,
       precoTotal,
-      motorista: motoristaId
+      motorista: motoristaId,
+      cliente: clienteId
     });
 
     await novaCorrida.save();

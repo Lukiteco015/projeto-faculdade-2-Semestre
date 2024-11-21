@@ -1,11 +1,11 @@
 const mongoose = require('mongoose');
 
 const corridaSchema = new mongoose.Schema({
-  /*idcliente: {
+  cliente: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Cliente',
     required: true
-  },*/
+  },
   motorista: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Motorista',

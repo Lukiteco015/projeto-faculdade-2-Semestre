@@ -21,7 +21,12 @@ const clienteSchema = new mongoose.Schema({
     preferenciasViagem: {
         type: [String],
         default: []
-    }
+    },
+    motorista: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Motorista',
+        required: true
+      }
 })
 
 module.exports = mongoose.model('Cliente', clienteSchema)
