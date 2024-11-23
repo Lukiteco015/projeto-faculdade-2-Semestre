@@ -8,6 +8,9 @@ const motoristaRoute = require('../routes/motoristaRoute');
 const clienteRoute = require('../routes/clienteRoute');
 const agendamentoRoute = require('../routes/agendamentoRoute');
 const relatorioConsumoRoute = require('../routes/relatorioConsumoRoute');
+const relatorioGanhosRoute = require('../routes/relatorioGanhosRoute');
+const relatorioGastosRoute = require('../routes/relatorioGastosRoutes');
+
 
 const app = express();
 
@@ -21,6 +24,9 @@ app.use('/api/motorista', motoristaRoute);
 app.use('/api/cliente', clienteRoute);
 app.use('/api/relatorios/consumo', relatorioConsumoRoute);
 app.use('/api/agendamentos',agendamentoRoute);
+app.use('/api/relatorios/ganhos', relatorioGanhosRoute);
+app.use('/api/relatorios/gastos', relatorioGastosRoute);
+
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
