@@ -1,17 +1,23 @@
-/*const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
-const relatorioSchema = new mongoose.Schema({
-    idmotorista: {
+const relatorioConsumoSchema = new mongoose.Schema({
+    motoristaId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Motorista',
-        required: true
-    },
-    quilometragemTotal: {
-        type: Number,
         required: true
     },
     data: {
         type: Date,
         required: true
+    },
+    quilometragem: {
+        type: Number,
+        required: true
+    },
+    consumoCombustivel: {
+        type: Number,
+        required: true
     }
-})*/
+});
+
+module.exports = mongoose.model('RelatorioConsumo', relatorioConsumoSchema);

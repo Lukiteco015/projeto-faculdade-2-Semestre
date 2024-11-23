@@ -1,29 +1,33 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
 
-/*const agendamentoSchema = new mongoose.Schema({
-    idcliente: {
+const agendamentoSchema = new mongoose.Schema({
+    motoristaId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Cliente',  // Relacionamento com o Cliente
+        ref: 'Motorista',
         required: true
     },
-    idmotorista: {
+    clienteId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Motorista',  // Relacionamento com o Motorista
+        ref: 'Cliente',
         required: true
     },
-    datahora: {
+    dias: {
+        type: [String], // Exemplo: ['Segunda', 'Terça', 'Quarta']
+        required: true
+    },
+    horario: {
         type: Date,
-        required: true  // Data e hora da corrida agendada
-    },
-    dataHoraMarcada: {
-        type: Date,  // Data e hora que foi marcada com o cliente
         required: true
     },
-    status: {
+    localOrigem: {
         type: String,
-        enum: ['Agendada', 'Cancelada', 'Concluída'],
-        default: 'Agendada'
+        required: true
+    },
+    localDestino: {
+        type: String,
+        required: true
     }
 });
 
-module.exports = mongoose.model('Agendamento', agendamentoSchema);*/
+module.exports = mongoose.model('Agendamento', agendamentoSchema);
+
