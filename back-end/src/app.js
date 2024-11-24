@@ -10,6 +10,7 @@ const agendamentoRoute = require('../routes/agendamentoRoute');
 const relatorioConsumoRoute = require('../routes/relatorioConsumoRoute');
 const relatorioGanhosRoute = require('../routes/relatorioGanhosRoute');
 const relatorioGastosRoute = require('../routes/relatorioGastosRoutes');
+const HistoricoDeCorridaRoute = require('../routes/HistoricoDeCorridaRoute');
 
 
 const app = express();
@@ -26,6 +27,7 @@ app.use('/api/relatorios/consumo', relatorioConsumoRoute);
 app.use('/api/agendamentos',agendamentoRoute);
 app.use('/api/relatorios/ganhos', relatorioGanhosRoute);
 app.use('/api/relatorios/gastos', relatorioGastosRoute);
+app.use('/api/historico', HistoricoDeCorridaRoute);
 
 
 const PORT = process.env.PORT || 5000;
