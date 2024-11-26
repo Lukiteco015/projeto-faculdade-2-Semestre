@@ -25,17 +25,25 @@ exports.criarCorrida = async (req, res) => {
       return res.status(401).json({ error: 'Token inválido ou expirado' });
     }
 
-    // Buscar o ID do cliente pelo nome (usando $regex para buscar de forma aproximada)
+    // Buscar todos os clientes associados ao motorista
+    const clientes = await Cliente.find({ motorista: motoristaId });  // Cliente tem a referência 'motorista'
+
+    if (clientes.length === 0) {
+      return res.status(404).json({ error: 'Nenhum cliente encontrado para esse motorista.' });
+    }
+
+    // Agora, se nomeCliente for fornecido, podemos buscar esse cliente específico
     let clienteId = null;
     if (nomeCliente) {
       const cliente = await Cliente.findOne({
-        nome: { $regex: nomeCliente, $options: 'i' }  // $options: 'i' faz a busca ser case-insensitive
+        nome: { $regex: nomeCliente, $options: 'i' },  // Busca aproximada, case-insensitive
+        motorista: motoristaId,  // Garante que o cliente é do motorista atual
       });
 
       if (cliente) {
         clienteId = cliente._id;
       } else {
-        return res.status(404).json({ error: 'Cliente não encontrado com esse nome.' });
+        return res.status(404).json({ error: 'Cliente não encontrado com esse nome para esse motorista.' });
       }
     }
 
@@ -65,10 +73,12 @@ exports.criarCorrida = async (req, res) => {
 
     return res.status(201).json({
       message: `Corrida cadastrada com sucesso. Distância calculada: ${distancia} km. Preço total: R$${precoTotal.toFixed(2)}.`,
-      corrida: novaCorrida
+      corrida: novaCorrida,
+      clientes: clientes // Retornando a lista de clientes associados ao motorista
     });
   } catch (error) {
     console.error('Erro ao cadastrar corrida:', error);
     return res.status(500).json({ error: 'Erro ao cadastrar corrida' });
   }
 };
+

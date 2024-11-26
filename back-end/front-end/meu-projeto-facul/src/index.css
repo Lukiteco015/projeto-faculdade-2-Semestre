@@ -1,0 +1,68 @@
+/* Estilos gerais */
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: Arial, sans-serif;
+  }
+  
+  .home-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh; /* Ocupa toda a altura da tela */
+  }
+  
+  .navbar {
+    display: flex;
+    justify-content: space-around;
+    background-color: #333;
+    padding: 15px 0;
+    position: sticky;
+    top: 0;
+    width: 100%;
+  }
+  
+  .navbar a {
+    color: white;
+    text-decoration: none;
+    padding: 10px;
+  }
+  
+  .navbar a.active {
+    font-weight: bold;
+  }
+  
+  .navbar button {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .navbar button:hover {
+    background-color: #d32f2f;
+  }
+  
+  /* Centralizando o conteúdo */
+  .content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1; /* Ocupa o restante da altura disponível */
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .content h1 {
+    font-size: 36px;
+    color: #333;
+  }
+  
+  .content p {
+    font-size: 18px;
+    color: #555;
+  }
+  

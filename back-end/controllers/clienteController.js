@@ -3,9 +3,9 @@ const jwt = require('jsonwebtoken');
 
 exports.criarCliente = async (req, res) => {
   try {
-    const { nome, cpf, telefone, foto, preferenciasViagem } = req.body;
+    const { nome, cpf, telefone } = req.body;
 
-    if (!nome || !cpf || !telefone || !foto)
+    if (!nome || !cpf || !telefone)
       return res.status(400).json({ mensagem: 'Dados insuficientes para cadastrar cliente.' });
 
     const token = req.headers.authorization?.split(' ')[1];
@@ -26,7 +26,7 @@ exports.criarCliente = async (req, res) => {
       return res.status(400).json({ mensagem: 'Cliente já existente com este CPF.' });
     }
 
-    const clienteCriado = new Cliente({ nome, cpf, telefone, foto, preferenciasViagem, motorista: motoristaId });
+    const clienteCriado = new Cliente({ nome, cpf, telefone, motorista: motoristaId });
     await clienteCriado.save();
 
     res.status(201).json({ mensagem: 'Cliente criado com sucesso!', cliente: clienteCriado });
