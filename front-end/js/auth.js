@@ -1,5 +1,5 @@
 // Função para salvar o cadastro no localStorage
-function cadastrarMotoristaLocal(nome, cpf, email, senha) {
+/*function cadastrarMotoristaLocal(nome, cpf, email, senha) {
     const motoristas = JSON.parse(localStorage.getItem("motoristas")) || [];
     const novoMotorista = { nome, cpf, email, senha };
     motoristas.push(novoMotorista);
@@ -39,5 +39,5 @@ function cadastrarMotoristaLocal(nome, cpf, email, senha) {
   function logout() {
     localStorage.removeItem("motoristaLogado");
     window.location.href = "pages/login.html"; // Redireciona para login
-  }
+  }/*
   

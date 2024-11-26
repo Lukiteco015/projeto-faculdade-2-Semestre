@@ -1,5 +1,5 @@
 // Verifica se o usuário está logado
-function verificarLogin() {
+/*function verificarLogin() {
     const token = localStorage.getItem("token");
     if (!token) {
       window.location.href = "pages/login.html"; // Redireciona para o login se não estiver logado
@@ -61,5 +61,5 @@ function verificarLogin() {
       li.textContent = `${cliente.nome} - ${cliente.telefone} - ${cliente.email}`;
       listaClientes.appendChild(li);
     });
-  }
+  }*/
   

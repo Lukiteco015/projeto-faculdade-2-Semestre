@@ -1,20 +1,26 @@
 const Motorista = require('../models/Motorista');
-const Veiculo = require('../models/Veiculo');
 
-exports.criarMotoristaEVeiculo = async (req, res) => {
+exports.criarMotorista = async (req, res) => {
   try {
-    const { nome, cpf, foto, senha, email, veiculo } = req.body;
-    if (!nome || !cpf || !foto || !senha || !email || !veiculo || !veiculo.marca || !veiculo.modelo || !veiculo.ano || !veiculo.placa)
-      return res.status(400).json({ mensagem: 'Dados insuficientes para cadastrar motorista e veículo.' });
+    const { nome, cpf, senha, email } = req.body;
 
-    const veiculoCriado = new Veiculo(veiculo);
-    await veiculoCriado.save();
+    if (!nome || !cpf || !senha || !email) {
+      return res
+        .status(400)
+        .json({ mensagem: 'Dados insuficientes para cadastrar motorista.' });
+    }
 
-    const motoristaCriado = new Motorista({ nome, cpf, foto, senha, email, idveiculo: veiculoCriado._id });
+    const motoristaCriado = new Motorista({ nome, cpf, senha, email });
     await motoristaCriado.save();
 
-    res.status(201).json({ mensagem: 'Motorista e veículo criados com sucesso!', motorista: motoristaCriado, veiculo: veiculoCriado });
+    res.status(201).json({
+      mensagem: 'Motorista criado com sucesso!',
+      motorista: motoristaCriado,
+    });
   } catch (err) {
-    res.status(500).json({ mensagem: 'Erro ao criar motorista e veículo.', erro: err.message });
+    res
+      .status(500)
+      .json({ mensagem: 'Erro ao criar motorista.', erro: err.message });
   }
 };
+

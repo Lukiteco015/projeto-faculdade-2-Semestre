@@ -1,0 +1,37 @@
+const cadastroForm = document.getElementById("cadastroForm");
+
+cadastroForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const nome = document.getElementById("nome").value;
+  const cpf = document.getElementById("cpf").value;
+  const email = document.getElementById("email").value;
+  const senha = document.getElementById("senha").value;
+
+  // Crie o objeto para enviar ao back-end
+  const motorista = { nome, cpf, email, senha };
+
+  try {
+    const response = await fetch("http://localhost:5000/api/motorista/cadastrar", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(motorista),
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      alert("Cadastro realizado com sucesso!");
+      cadastroForm.reset();
+    } else {
+      alert(`Erro: ${data.mensagem}`);
+    }
+  } catch (error) {
+    console.error("Erro ao enviar os dados:", error);
+    alert("Ocorreu um erro ao cadastrar o motorista.");
+  }
+});
+
+

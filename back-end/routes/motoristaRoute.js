@@ -4,7 +4,7 @@ const loginController = require('../controllers/loginController');
 
 const router = express.Router();
 
-router.post('/cadastrar', motoristaController.criarMotoristaEVeiculo);
+router.post('/cadastrar', motoristaController.criarMotorista);
 router.post('/login', loginController.loginMotorista);
 
 module.exports = router;
