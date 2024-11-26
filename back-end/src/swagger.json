@@ -1,0 +1,1518 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "title": "API de Motoristas particulares",
+      "version": "1.0.0",
+      "description": "API para app de motoristas particulares"
+    },
+    "servers": [
+      {
+        "url": "http://localhost:5000/api"
+      }
+    ],
+    "paths": {
+    "/agendamentos/": {
+        "post": {
+          "summary": "Criar um novo agendamento",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Agendamento"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Agendamento criado com sucesso"
+            },
+            "500": {
+              "description": "Erro ao criar agendamento"
+            }
+          }
+        }
+      },
+    "/agendamentos/{id}": {
+        "put": {
+          "summary": "Atualizar um agendamento existente",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "description": "ID do agendamento"
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "horario": { "type": "string", "format": "date-time" },
+                    "localOrigem": { "type": "string" },
+                    "localDestino": { "type": "string" }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Agendamento atualizado com sucesso"
+            },
+            "404": {
+              "description": "Agendamento não encontrado"
+            },
+            "500": {
+              "description": "Erro ao atualizar agendamento"
+            }
+          }
+        },
+        "delete": {
+          "summary": "Cancelar um agendamento existente",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              },
+              "description": "ID do agendamento"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Agendamento cancelado com sucesso"
+            },
+            "404": {
+              "description": "Agendamento não encontrado"
+            },
+            "500": {
+              "description": "Erro ao cancelar agendamento"
+            }
+          }
+        }
+      },
+    "/agendamentos/{id}/dias/adicionar": {
+      "put": {
+        "summary": "Adicionar dias a um agendamento existente",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID do agendamento"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "dias": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Dias adicionados com sucesso"
+          },
+          "404": {
+            "description": "Agendamento não encontrado"
+          },
+          "500": {
+            "description": "Erro ao adicionar dias"
+          }
+        }
+      }
+    },
+    "/agendamentos/{id}/dias/remover": {
+      "put": {
+        "summary": "Remover dias de um agendamento existente",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID do agendamento"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "dias": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Dias removidos com sucesso"
+          },
+          "404": {
+            "description": "Agendamento não encontrado"
+          },
+          "500": {
+            "description": "Erro ao remover dias"
+          }
+        }
+      }
+    },
+    "/cliente/cadastrar": {
+        "post": {
+          "summary": "Cadastrar um novo cliente",
+          "description": "Cria um cliente associado ao motorista autenticado.",
+          "security": [
+            {
+              "BearerAuth": []
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClienteInput"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Cliente criado com sucesso.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ClienteResponse"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Dados insuficientes ou cliente já existente com o CPF fornecido.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "mensagem": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "Token inválido ou expirado.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "mensagem": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "403": {
+              "description": "Token de autenticação não fornecido.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "mensagem": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Erro interno ao criar cliente.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "mensagem": {
+                        "type": "string"
+                      },
+                      "erro": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+    },
+    "/corrida": {
+      "post": {
+        "summary": "Criar uma nova corrida",
+        "description": "Endpoint para criação de uma nova corrida, vinculando motorista e cliente.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CorridaInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Corrida criada com sucesso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CorridaResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Erro de validação ou distância inválida.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Erro"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Token inválido ou não fornecido.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Erro"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Cliente não encontrado.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Erro"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro interno ao criar corrida.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Erro"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/historico/criar": {
+      "post": {
+        "summary": "Criar um novo histórico de corrida",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/HistoricoInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Histórico criado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HistoricoResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro ao criar histórico"
+          }
+        }
+      }
+    },
+    "/historico/": {
+      "get": {
+        "summary": "Obter todos os históricos de corridas",
+        "responses": {
+          "200": {
+            "description": "Lista de históricos de corridas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/HistoricoResponse"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro ao obter os históricos"
+          }
+        }
+      }
+    },
+    "/historico/{id}": {
+      "get": {
+        "summary": "Obter um histórico específico por ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID do histórico"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Dados do histórico solicitado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HistoricoResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "ID inválido"
+          },
+          "404": {
+            "description": "Histórico não encontrado"
+          },
+          "500": {
+            "description": "Erro ao obter o histórico"
+          }
+        }
+      },
+      "put": {
+        "summary": "Atualizar um histórico de corrida",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID do histórico"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/HistoricoInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Histórico atualizado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HistoricoResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "ID inválido"
+          },
+          "404": {
+            "description": "Histórico não encontrado"
+          },
+          "500": {
+            "description": "Erro ao atualizar o histórico"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Excluir um histórico de corrida",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID do histórico"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Histórico excluído com sucesso"
+          },
+          "400": {
+            "description": "ID inválido"
+          },
+          "404": {
+            "description": "Histórico não encontrado"
+          },
+          "500": {
+            "description": "Erro ao excluir o histórico"
+          }
+        }
+      }
+    },
+    "/motorista/cadastrar": {
+      "post": {
+        "summary": "Cadastrar um novo motorista e veículo",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MotoristaCadastroInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Motorista e veículo criados com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MotoristaCadastroResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Dados insuficientes para cadastro"
+          },
+          "500": {
+            "description": "Erro ao cadastrar motorista e veículo"
+          }
+        }
+      }
+    },
+    "/motorista/login": {
+      "post": {
+        "summary": "Login de motorista",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MotoristaLoginInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Login bem-sucedido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MotoristaLoginResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credenciais inválidas"
+          },
+          "500": {
+            "description": "Erro ao realizar login"
+          }
+        }
+      }
+    },
+    "/relatorio/consumo/criar": {
+      "post": {
+        "summary": "Criar um novo relatório de consumo",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RelatorioConsumo"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Relatório de consumo criado com sucesso.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "mensagem": "Relatório de consumo criado com sucesso!",
+                  "novoRelatorio": {
+                    "motoristaId": "63c9f34e8f8b0b4f5c7b2e36",
+                    "data": "2024-11-25T00:00:00.000Z",
+                    "quilometragem": 200,
+                    "consumoCombustivel": 20
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro ao criar relatório de consumo."
+          }
+        }
+      }
+    },
+    "/relatorio/consumo/": {
+      "get": {
+        "summary": "Obter todos os relatórios de consumo",
+        "responses": {
+          "200": {
+            "description": "Lista de relatórios de consumo.",
+            "content": {
+              "application/json": {
+                "example": [
+                  {
+                    "_id": "63c9f34e8f8b0b4f5c7b2e36",
+                    "motoristaId": {
+                      "_id": "63c9f34e8f8b0b4f5c7b2e37",
+                      "nome": "João Motorista"
+                    },
+                    "data": "2024-11-25T00:00:00.000Z",
+                    "quilometragem": 200,
+                    "consumoCombustivel": 20
+                  }
+                ]
+              }
+            }
+          },
+          "500": {
+            "description": "Erro ao obter relatórios de consumo."
+          }
+        }
+      }
+    },
+    "/relatorio/consumo/{id}": {
+      "put": {
+        "summary": "Atualizar um relatório de consumo existente",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID do relatório de consumo."
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RelatorioConsumoUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Relatório de consumo atualizado com sucesso.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "mensagem": "Relatório de consumo atualizado com sucesso!",
+                  "relatorio": {
+                    "_id": "63c9f34e8f8b0b4f5c7b2e36",
+                    "data": "2024-11-25T00:00:00.000Z",
+                    "quilometragem": 250,
+                    "consumoCombustivel": 25
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Relatório de consumo não encontrado."
+          },
+          "500": {
+            "description": "Erro ao atualizar relatório de consumo."
+          }
+        }
+      },
+      "delete": {
+        "summary": "Excluir um relatório de consumo existente",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID do relatório de consumo."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Relatório de consumo excluído com sucesso.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "mensagem": "Relatório de consumo excluído com sucesso!"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Relatório de consumo não encontrado."
+          },
+          "500": {
+            "description": "Erro ao excluir relatório de consumo."
+          }
+          }
+        }
+    },
+    "/relatorio/ganhos/criar": {
+      "post": {
+        "summary": "Criar um novo relatório de ganhos",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RelatorioGanhos"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Relatório de ganhos criado com sucesso.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "mensagem": "Relatório de ganhos criado com sucesso!",
+                  "novoRelatorio": {
+                  "_id": "63c9f34e8f8b0b4f5c7b2e37",
+                  "motoristaId": "63c9f34e8f8b0b4f5c7b2e36",
+                  "data": "2024-11-25T00:00:00.000Z",
+                  "valorGanho": 1000,
+                  "gastosId": "63c9f34e8f8b0b4f5c7b2e39"
+                }
+              }
+            }
+          }
+        },
+        "500": {
+          "description": "Erro ao criar relatório de ganhos."
+        }
+      }
+    }
+  },
+  "/relatorio/ganhos/": {
+    "get": {
+      "summary": "Obter todos os relatórios de ganhos",
+      "responses": {
+        "200": {
+          "description": "Lista de relatórios de ganhos.",
+          "content": {
+            "application/json": {
+              "example": [
+                {
+                  "_id": "63c9f34e8f8b0b4f5c7b2e37",
+                  "motoristaId": {
+                    "_id": "63c9f34e8f8b0b4f5c7b2e36",
+                    "nome": "João Motorista"
+                  },
+                  "data": "2024-11-25T00:00:00.000Z",
+                  "valorGanho": 1000,
+                  "gastosId": {
+                    "_id": "63c9f34e8f8b0b4f5c7b2e39",
+                    "descricao": "Combustível"
+                  }
+                }
+              ]
+            }
+          }
+        },
+        "500": {
+          "description": "Erro ao obter relatórios de ganhos."
+        }
+      }
+    }
+  },
+  "/relatorio/ganhos/{id}": {
+    "get": {
+      "summary": "Obter um relatório de ganhos específico",
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "ID do relatório de ganhos."
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Relatório de ganhos encontrado.",
+          "content": {
+            "application/json": {
+              "example": {
+                "_id": "63c9f34e8f8b0b4f5c7b2e37",
+                "motoristaId": {
+                  "_id": "63c9f34e8f8b0b4f5c7b2e36",
+                  "nome": "João Motorista"
+                },
+                "data": "2024-11-25T00:00:00.000Z",
+                "valorGanho": 1000,
+                "gastosId": {
+                  "_id": "63c9f34e8f8b0b4f5c7b2e39",
+                  "descricao": "Combustível"
+                }
+              }
+            }
+          }
+        },
+        "404": {
+          "description": "Relatório de ganhos não encontrado."
+        },
+        "500": {
+          "description": "Erro ao obter relatório de ganhos."
+        }
+      }
+    },
+    "put": {
+      "summary": "Atualizar um relatório de ganhos existente",
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "ID do relatório de ganhos."
+        }
+      ],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/RelatorioGanhosUpdate"
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "Relatório de ganhos atualizado com sucesso.",
+          "content": {
+            "application/json": {
+              "example": {
+                "mensagem": "Relatório de ganhos atualizado com sucesso!",
+                "relatorio": {
+                  "_id": "63c9f34e8f8b0b4f5c7b2e37",
+                  "data": "2024-11-25T00:00:00.000Z",
+                  "valorGanho": 1100,
+                  "gastosId": "63c9f34e8f8b0b4f5c7b2e39"
+                }
+              }
+            }
+          }
+        },
+        "404": {
+          "description": "Relatório de ganhos não encontrado."
+        },
+        "500": {
+          "description": "Erro ao atualizar relatório de ganhos."
+        }
+      }
+    },
+    "delete": {
+      "summary": "Excluir um relatório de ganhos existente",
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "ID do relatório de ganhos."
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Relatório de ganhos excluído com sucesso.",
+          "content": {
+            "application/json": {
+              "example": {
+                "mensagem": "Relatório de ganhos excluído com sucesso!"
+              }
+            }
+          }
+        },
+        "404": {
+          "description": "Relatório de ganhos não encontrado."
+        },
+        "500": {
+          "description": "Erro ao excluir relatório de ganhos."
+        }
+      }
+    }
+  },
+  "/relatorio/gastos/criar": {
+    "post": {
+      "summary": "Criar um novo relatório de gastos",
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/RelatorioGastos"
+            }
+          }
+        }
+      },
+      "responses": {
+        "201": {
+          "description": "Relatório de gastos criado com sucesso.",
+          "content": {
+            "application/json": {
+              "example": {
+                "mensagem": "Relatório de gastos criado com sucesso!",
+                "novoRelatorio": {
+                  "_id": "63d9f34e8f8b0b4f5c7b2e37",
+                  "motoristaId": "63d9f34e8f8b0b4f5c7b2e36",
+                  "data": "2024-11-25T00:00:00.000Z",
+                  "valorDespesa": 500
+                }
+              }
+            }
+          }
+        },
+        "500": {
+          "description": "Erro ao criar relatório de gastos."
+        }
+      }
+    }
+  },
+  "/relatorio/gastos/": {
+    "get": {
+      "summary": "Obter todos os relatórios de gastos",
+      "responses": {
+        "200": {
+          "description": "Lista de relatórios de gastos.",
+          "content": {
+            "application/json": {
+              "example": [
+                {
+                  "_id": "63d9f34e8f8b0b4f5c7b2e37",
+                  "motoristaId": {
+                    "_id": "63d9f34e8f8b0b4f5c7b2e36",
+                    "nome": "Maria Motorista"
+                  },
+                  "data": "2024-11-25T00:00:00.000Z",
+                  "valorDespesa": 500
+                }
+              ]
+            }
+          }
+        },
+        "500": {
+          "description": "Erro ao obter relatórios de gastos."
+        }
+      }
+    }
+  },
+  "/relatorio/gastos/{id}": {
+    "get": {
+      "summary": "Obter um relatório de gastos específico",
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "ID do relatório de gastos."
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Relatório de gastos encontrado.",
+          "content": {
+            "application/json": {
+              "example": {
+                "_id": "63d9f34e8f8b0b4f5c7b2e37",
+                "motoristaId": {
+                  "_id": "63d9f34e8f8b0b4f5c7b2e36",
+                  "nome": "Maria Motorista"
+                },
+                "data": "2024-11-25T00:00:00.000Z",
+                "valorDespesa": 500
+              }
+            }
+          }
+        },
+        "404": {
+          "description": "Relatório de gastos não encontrado."
+        },
+        "500": {
+          "description": "Erro ao obter relatório de gastos."
+        }
+      }
+    },
+    "put": {
+      "summary": "Atualizar um relatório de gastos existente",
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "ID do relatório de gastos."
+        }
+      ],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/RelatorioGastosUpdate"
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "Relatório de gastos atualizado com sucesso.",
+          "content": {
+            "application/json": {
+              "example": {
+                "mensagem": "Relatório de gastos atualizado com sucesso!",
+                "relatorio": {
+                  "_id": "63d9f34e8f8b0b4f5c7b2e37",
+                  "data": "2024-11-26T00:00:00.000Z",
+                  "valorDespesa": 600
+                }
+              }
+            }
+          }
+        },
+        "404": {
+          "description": "Relatório de gastos não encontrado."
+        },
+        "500": {
+          "description": "Erro ao atualizar relatório de gastos."
+        }
+      }
+    },
+    "delete": {
+      "summary": "Excluir um relatório de gastos existente",
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "description": "ID do relatório de gastos."
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Relatório de gastos excluído com sucesso.",
+          "content": {
+            "application/json": {
+              "example": {
+                "mensagem": "Relatório de gastos excluído com sucesso!"
+              }
+            }
+          }
+        },
+        "404": {
+          "description": "Relatório de gastos não encontrado."
+        },
+        "500": {
+          "description": "Erro ao excluir relatório de gastos."
+        }
+      }
+    }
+  }
+},
+"components": {
+  "securitySchemes": {
+"BearerAuth": {
+"type": "http",
+"scheme": "bearer",
+"bearerFormat": "JWT"
+  }
+},
+    "schemas": {
+      "Erro": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "description": "Descrição do erro ocorrido."
+          }
+        }
+      },
+      "Agendamento": {
+        "type": "object",
+        "properties": {
+          "motoristaId": {
+            "type": "string",
+            "description": "ID do motorista"
+          },
+          "clienteId": {
+            "type": "string",
+            "description": "ID do cliente"
+          },
+          "dias": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Dias do agendamento"
+          },
+          "horario": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Horário do agendamento"
+          },
+          "localOrigem": {
+            "type": "string",
+            "description": "Local de origem"
+          },
+          "localDestino": {
+            "type": "string",
+            "description": "Local de destino"
+          }
+        },
+        "required": ["motoristaId", "clienteId", "dias", "horario", "localOrigem", "localDestino"]
+      },
+      "ClienteInput": {
+        "type": "object",
+        "properties": {
+          "nome": { "type": "string" },
+          "cpf": { "type": "string" },
+          "telefone": { "type": "string" },
+          "foto": { "type": "string" },
+          "preferenciasViagem": {
+            "type": "array",
+            "items": { "type": "string" },
+            "default": []
+          }
+        },
+        "required": ["nome", "cpf", "telefone", "foto"]
+      },
+      "ClienteResponse": {
+        "type": "object",
+        "properties": {
+          "mensagem": { "type": "string" },
+          "cliente": { "$ref": "#/components/schemas/Cliente" }
+        }
+      },
+      "Cliente": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "nome": { "type": "string" },
+          "cpf": { "type": "string" },
+          "telefone": { "type": "string" },
+          "foto": { "type": "string" },
+          "preferenciasViagem": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "motorista": {
+            "type": "string",
+            "description": "ID do motorista associado"
+          }
+        }
+      },
+      "CorridaInput": {
+      "type": "object",
+      "properties": {
+        "enderecoOrigem": {
+          "type": "string",
+          "description": "Endereço de origem da corrida."
+        },
+        "enderecoDestino": {
+          "type": "string",
+          "description": "Endereço de destino da corrida."
+        },
+        "tarifaPorKm": {
+          "type": "number",
+          "description": "Tarifa cobrada por quilômetro.",
+          "example": 2.5
+        },
+        "nomeCliente": {
+          "type": "string",
+          "description": "Nome do cliente associado à corrida."
+        }
+      },
+      "required": ["enderecoOrigem", "enderecoDestino", "tarifaPorKm"]
+    },
+    "CorridaResponse": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string",
+          "description": "Mensagem de sucesso."
+        },
+        "corrida": {
+          "$ref": "#/components/schemas/Corrida"
+        }
+      }
+    },
+    "Corrida": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "ID único da corrida."
+        },
+        "enderecoOrigem": {
+          "type": "string",
+          "description": "Endereço de origem da corrida."
+        },
+        "enderecoDestino": {
+          "type": "string",
+          "description": "Endereço de destino da corrida."
+        },
+        "distancia": {
+          "type": "number",
+          "description": "Distância entre origem e destino em km."
+        },
+        "status": {
+          "type": "string",
+          "enum": ["Pendente", "Concluida", "Cancelada", "Em Andamento"],
+          "description": "Status atual da corrida."
+        },
+        "precoTotal": {
+          "type": "number",
+          "description": "Preço total calculado para a corrida."
+        },
+        "datahora": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Data e hora de criação da corrida."
+        },
+        "tarifaPorKm": {
+          "type": "number",
+          "description": "Tarifa aplicada por quilômetro."
+        },
+        "motorista": {
+          "type": "string",
+          "description": "ID do motorista responsável pela corrida."
+        },
+        "cliente": {
+          "type": "string",
+          "description": "ID do cliente associado à corrida."
+        }
+      }
+    },
+    "HistoricoInput": {
+      "type": "object",
+      "properties": {
+        "motoristaId": {
+          "type": "string",
+          "description": "ID do motorista"
+        },
+        "clienteId": {
+          "type": "string",
+          "description": "ID do cliente"
+        },
+        "corridaId": {
+          "type": "string",
+          "description": "ID da corrida"
+        }
+      },
+      "required": ["motoristaId", "clienteId", "corridaId"]
+    },
+    "HistoricoResponse": {
+      "type": "object",
+      "properties": {
+       "id": {
+    "type": "string",
+    "description": "ID do histórico"
+      },
+      "motoristaId": {
+    "type": "string",
+    "description": "ID do motorista"
+      },
+      "clienteId": {
+    "type": "string",
+    "description": "ID do cliente"
+      },
+      "corridaId": {
+    "type": "string",
+    "description": "ID da corrida"
+      }
+}
+},
+      "MotoristaCadastroInput": {
+      "type": "object",
+      "properties": {
+        "nome": { "type": "string", "description": "Nome do motorista" },
+        "cpf": { "type": "string", "description": "CPF do motorista" },
+        "foto": { "type": "string", "description": "URL da foto do motorista" },
+        "senha": { "type": "string", "description": "Senha do motorista" },
+        "email": { "type": "string", "description": "E-mail do motorista" },
+        "veiculo": {
+          "type": "object",
+          "properties": {
+            "marca": { "type": "string", "description": "Marca do veículo" },
+            "modelo": { "type": "string", "description": "Modelo do veículo" },
+            "ano": { "type": "number", "description": "Ano do veículo" },
+            "placa": { "type": "string", "description": "Placa do veículo" }
+          },
+          "required": ["marca", "modelo", "ano", "placa"]
+        }
+      },
+      "required": ["nome", "cpf", "foto", "senha", "email", "veiculo"]
+    },
+    "MotoristaCadastroResponse": {
+      "type": "object",
+      "properties": {
+        "mensagem": { "type": "string", "description": "Mensagem de sucesso" },
+        "motorista": {
+          "type": "object",
+          "properties": {
+            "id": { "type": "string", "description": "ID do motorista" },
+            "nome": { "type": "string", "description": "Nome do motorista" },
+            "cpf": { "type": "string", "description": "CPF do motorista" },
+            "email": { "type": "string", "description": "E-mail do motorista" },
+            "idveiculo": { "type": "string", "description": "ID do veículo associado" }
+          }
+        },
+        "veiculo": {
+          "type": "object",
+          "properties": {
+            "id": { "type": "string", "description": "ID do veículo" },
+            "marca": { "type": "string", "description": "Marca do veículo" },
+            "modelo": { "type": "string", "description": "Modelo do veículo" },
+            "ano": { "type": "number", "description": "Ano do veículo" },
+            "placa": { "type": "string", "description": "Placa do veículo" }
+          }
+        }
+      }
+    },
+    "MotoristaLoginInput": {
+      "type": "object",
+      "properties": {
+        "email": { "type": "string", "description": "E-mail do motorista" },
+        "senha": { "type": "string", "description": "Senha do motorista" }
+      },
+      "required": ["email", "senha"]
+    },
+    "MotoristaLoginResponse": {
+      "type": "object",
+      "properties": {
+        "mensagem": { "type": "string", "description": "Mensagem de sucesso" },
+        "token": { "type": "string", "description": "Token de autenticação" }
+      }
+  },
+  "RelatorioConsumo": {
+      "type": "object",
+      "properties": {
+        "motoristaId": {
+          "type": "string",
+          "description": "ID do motorista associado ao relatório."
+        },
+        "data": {
+          "type": "string",
+          "format": "date",
+          "description": "Data do relatório."
+        },
+        "quilometragem": {
+          "type": "number",
+          "description": "Quilometragem percorrida."
+        },
+        "consumoCombustivel": {
+          "type": "number",
+          "description": "Consumo de combustível (litros)."
+        }
+      },
+      "required": ["motoristaId", "data", "quilometragem", "consumoCombustivel"]
+    },
+    "RelatorioConsumoUpdate": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "string",
+          "format": "date",
+          "description": "Nova data do relatório."
+        },
+        "quilometragem": {
+          "type": "number",
+          "description": "Nova quilometragem percorrida."
+        },
+        "consumoCombustivel": {
+          "type": "number",
+          "description": "Novo consumo de combustível."
+        }
+      }
+    },
+    "RelatorioGanhos": {
+      "type": "object",
+      "properties": {
+        "motoristaId": {
+          "type": "string",
+          "description": "ID do motorista associado ao relatório."
+        },
+        "data": {
+          "type": "string",
+          "format": "date",
+          "description": "Data do relatório."
+        },
+        "valorGanho": {
+          "type": "number",
+          "description": "Valor ganho pelo motorista."
+        },
+        "gastosId": {
+          "type": "string",
+          "description": "ID das despesas relacionadas (opcional)."
+        }
+      },
+      "required": ["motoristaId", "data", "valorGanho"]
+    },
+    "RelatorioGanhosUpdate": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "string",
+          "format": "date",
+          "description": "Nova data do relatório."
+        },
+        "valorGanho": {
+          "type": "number",
+          "description": "Novo valor ganho."
+        },
+        "gastosId": {
+          "type": "string",
+          "description": "Novo ID das despesas relacionadas (opcional)."
+        }
+      }
+    },
+    "RelatorioGastos": {
+      "type": "object",
+      "properties": {
+        "motoristaId": {
+          "type": "string",
+          "description": "ID do motorista associado ao relatório."
+        },
+        "data": {
+          "type": "string",
+          "format": "date",
+          "description": "Data do relatório."
+        },
+        "valorDespesa": {
+          "type": "number",
+          "description": "Valor da despesa."
+        }
+      },
+      "required": ["motoristaId", "data", "valorDespesa"]
+    },
+    "RelatorioGastosUpdate": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "string",
+          "format": "date",
+          "description": "Nova data do relatório."
+        },
+        "valorDespesa": {
+          "type": "number",
+          "description": "Novo valor da despesa."
+        },
+    "Erro": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string",
+          "description": "Descrição do erro ocorrido."
+                } 
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+                   
