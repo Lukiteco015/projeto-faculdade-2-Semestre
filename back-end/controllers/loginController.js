@@ -1,7 +1,7 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const Motorista = require('../models/Motorista');
-require('dotenv').config({ path: '../.env'})
+require('dotenv').config({ path: '.env'})
 const JWT_SECRET = process.env.SECRET_KEY;
 
 exports.loginMotorista = async (req, res) => {

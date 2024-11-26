@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculadora de Rota</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <nav class="navbar">
+    <a href="../index.html">Home</a>
+    <a href="rota.html">Calculadora de Rota</a>
+    <a href="clientes.html">Clientes</a>
+    <a href="historico.html">Histórico</a>
+    <a href="consumo.html">Consumo</a>
+    <a href="veiculos.html">Veículos</a>
+    <a href="corrida.html">Corrida</a>
+
+  </nav>
+  <main class="content">
+    <h2>Calculadora de Rota</h2>
+    <form id="rotaForm">
+      <input type="text" id="origem" placeholder="Origem" required>
+      <input type="text" id="destino" placeholder="Destino" required>
+      <input type="number" id="distancia" placeholder="Distância (km)" required>
+      <input type="number" id="precoKm" placeholder="Preço por km (R$)" required>
+      <p id="resultado">Preço Total: R$ 0.00</p>
+      <button type="submit">Calcular</button>
+    </form>
+  </main>
+  <script>
+    const rotaForm = document.getElementById("rotaForm");
+    const resultado = document.getElementById("resultado");
+
+    rotaForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const distancia = parseFloat(document.getElementById("distancia").value);
+      const precoKm = parseFloat(document.getElementById("precoKm").value);
+      const total = distancia * precoKm;
+      resultado.textContent = `Preço Total: R$ ${total.toFixed(2)}`;
+    });
+  </script>
+</body>
+</html>

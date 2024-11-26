@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <nav class="navbar">
+    <a href="index.html" class="active">Home</a>
+    <a href="pages/rota.html">Calculadora de Rota</a>
+    <a href="pages/clientes.html">Clientes</a>
+    <a href="pages/historico.html">Histórico</a>
+    <a href="pages/consumo.html">Consumo</a>
+    <a href="pages/veiculos.html">Veículos</a>
+    <a href="pages/corrida.html">Corrida</a>
+    <button id="logoutButton">Logout</button>
+  </nav>
+  <main class="content">
+    <h1>Bem-vindo ao DriverPro</h1>
+    <p>Gerencie seus clientes, veículos e muito mais!</p>
+  </main>
+  <script>
+    const token = localStorage.getItem("token");
+    if (!token) {
+      window.location.href = "pages/login.html";
+    }
+
+    const logoutButton = document.getElementById("logoutButton");
+    logoutButton.addEventListener("click", () => {
+      localStorage.removeItem("token");
+      window.location.href = "pages/login.html";
+    });
+  </script>
+</body>
+</html>

@@ -14,14 +14,14 @@ const clienteSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    foto: {
+    /*foto: {
         type: String,
         required: true
-    },
-    preferenciasViagem: {
+    },*/
+    /*preferenciasViagem: {
         type: [String],
         default: []
-    },
+    },*/
     motorista: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Motorista',

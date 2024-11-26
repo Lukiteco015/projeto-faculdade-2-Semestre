@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../css/style.css">
+  <title>Clientes</title>
+</head>
+<body>
+  <!-- Navegação -->
+  <nav class="navbar">
+    <a href="../index.html">Home</a>
+    <a href="./rota.html">Calculadora de Rota</a>
+    <a href="./clientes.html" class="active">Clientes</a>
+    <a href="./historico.html">Histórico</a>
+    <a href="./consumo.html">Consumo</a>
+    <a href="./veiculos.html">Veículos</a>
+    <a href="corrida.html">Corrida</a>
+    <button id="logoutButton">Logout</button>
+  </nav>
+
+  <!-- Conteúdo Principal -->
+  <main class="content">
+    <h2>Cadastro de Cliente</h2>
+    <form id="clienteForm">
+      <input type="text" id="nome" placeholder="Nome" required>
+      <input type="text" id="telefone" placeholder="Telefone" required>
+      <input type="email" id="email" placeholder="Email" required>
+      <input type="text" id="motorista" placeholder="Motorista (Opcional)">
+      <button type="submit">Cadastrar</button>
+    </form>
+    <h2>Lista de Clientes</h2>
+    <ul id="listaClientes"></ul>
+  </main>
+
+  <script src="../js/auth.js"></script>
+  <script>
+    // Código de autenticação e manipulação de clientes
+    verificarLogin();
+    document.getElementById("logoutButton").addEventListener("click", logout);
+
+    // Função para salvar cliente
+    function salvarCliente(nome, telefone, email, motorista = "") {
+      const clientes = JSON.parse(localStorage.getItem("clientes")) || [];
+      const novoCliente = { nome, telefone, email, motorista };
+      clientes.push(novoCliente);
+      localStorage.setItem("clientes", JSON.stringify(clientes));
+    }
+
+    // Função para exibir clientes
+    function exibirClientes() {
+      const listaClientes = document.getElementById("listaClientes");
+      listaClientes.innerHTML = ""; // Limpa a lista antes de renderizar
+      const clientes = JSON.parse(localStorage.getItem("clientes")) || [];
+      clientes.forEach((cliente) => {
+        const li = document.createElement("li");
+        li.textContent = `${cliente.nome} - ${cliente.telefone} - ${cliente.email} - Motorista: ${cliente.motorista || "N/A"}`;
+        listaClientes.appendChild(li);
+      });
+    }
+
+    // Evento para manipular o cadastro de clientes
+    document.getElementById("clienteForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const nome = document.getElementById("nome").value;
+      const telefone = document.getElementById("telefone").value;
+      const email = document.getElementById("email").value;
+      const motorista = document.getElementById("motorista").value;
+
+      salvarCliente(nome, telefone, email, motorista);
+      exibirClientes();
+
+      alert("Cliente cadastrado com sucesso!");
+      e.target.reset(); // Reseta o formulário
+    });
+
+    // Inicializa a página
+    exibirClientes();
+  </script>
+</body>
+</html>
