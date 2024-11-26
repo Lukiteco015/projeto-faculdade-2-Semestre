@@ -5,18 +5,19 @@ import './corrida.css';
 
 const Corrida = () => {
   const [clientes, setClientes] = useState([]);
-  const [nomeCliente, setNomeCliente] = useState(null); // Definindo como null inicialmente
+  const [nomeCliente, setNomeCliente] = useState(null);
   const [enderecoOrigem, setEnderecoOrigem] = useState('');
   const [enderecoDestino, setEnderecoDestino] = useState('');
   const [tarifaPorKm, setTarifaPorKm] = useState('');
   const [message, setMessage] = useState('');
+  const [messageType, setMessageType] = useState(''); // Tipo da mensagem (sucesso/erro)
 
   // Função para buscar clientes do motorista logado
   useEffect(() => {
     const fetchClientes = async () => {
-      const token = localStorage.getItem('token'); // Supondo que o token esteja no localStorage
-
+      const token = localStorage.getItem('token');
       if (!token) {
+        setMessageType('error');
         setMessage('Token de autenticação não encontrado');
         return;
       }
@@ -24,12 +25,13 @@ const Corrida = () => {
       try {
         const response = await axios.get('http://localhost:5000/api/cliente/clientes', {
           headers: {
-            'Authorization': `Bearer ${token}`, // Inclui o token JWT na requisição
+            Authorization: `Bearer ${token}`,
           },
         });
-        setClientes(response.data.clientes); // Salva os clientes recebidos
+        setClientes(response.data.clientes);
       } catch (error) {
         console.error('Erro ao buscar clientes:', error);
+        setMessageType('error');
         setMessage('Erro ao buscar clientes');
       }
     };
@@ -37,36 +39,64 @@ const Corrida = () => {
     fetchClientes();
   }, []);
 
+  // Validação do formulário
+  const isFormValid = () => {
+    if (!nomeCliente) {
+      setMessageType('error');
+      setMessage('Selecione um cliente.');
+      return false;
+    }
+    if (!enderecoOrigem || !enderecoDestino || !tarifaPorKm) {
+      setMessageType('error');
+      setMessage('Todos os campos devem ser preenchidos.');
+      return false;
+    }
+    return true;
+  };
+
   // Função para cadastrar a corrida
   const cadastrarCorrida = async () => {
-    const token = localStorage.getItem('token'); // Verifica se o token está presente
+    if (!isFormValid()) return;
 
+    const token = localStorage.getItem('token');
     if (!token) {
+      setMessageType('error');
       setMessage('Token de autenticação não encontrado');
       return;
     }
 
-    if (!nomeCliente || !enderecoOrigem || !enderecoDestino || !tarifaPorKm) {
-      setMessage('Por favor, preencha todos os campos.');
-      return;
-    }
-
     try {
-      const response = await axios.post('http://localhost:5000/api/corridas/cadastrar', {
-        enderecoOrigem,
-        enderecoDestino,
-        tarifaPorKm,
-        nomeCliente: nomeCliente.nome, // Enviar o nome do cliente selecionado
-      }, {
-        headers: {
-          'Authorization': `Bearer ${token}`, // Envia o token JWT na requisição
+      const response = await axios.post(
+        'http://localhost:5000/api/corridas/cadastrar',
+        {
+          enderecoOrigem,
+          enderecoDestino,
+          tarifaPorKm,
+          nomeCliente: nomeCliente.nome,
         },
-      });
-      setMessage(response.data.message); // Exibe a mensagem de sucesso ou erro
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setMessageType('success');
+      setMessage(response.data.message);
     } catch (error) {
       console.error('Erro ao cadastrar corrida:', error);
+      setMessageType('error');
       setMessage('Erro ao cadastrar corrida');
     }
+  };
+
+  // Função para limpar campos
+  const limparCampos = () => {
+    setNomeCliente(null);
+    setEnderecoOrigem('');
+    setEnderecoDestino('');
+    setTarifaPorKm('');
+    setMessage('');
+    setMessageType('');
   };
 
   return (
@@ -79,14 +109,12 @@ const Corrida = () => {
           <Grid item xs={12}>
             <Autocomplete
               value={nomeCliente}
-              onChange={(event, newValue) => setNomeCliente(newValue)} // Agora passa o objeto do cliente
+              onChange={(event, newValue) => setNomeCliente(newValue)}
               options={clientes}
               getOptionLabel={(option) => option.nome}
               renderInput={(params) => <TextField {...params} label="Nome do Cliente" fullWidth />}
               isOptionEqualToValue={(option, value) => option._id === value._id}
             />
-            {/* Condicional para exibir a mensagem "Seus clientes cadastrados" quando nenhum cliente for selecionado */}
-            {!nomeCliente && <p>Seus clientes cadastrados</p>}
           </Grid>
           <Grid item xs={12}>
             <TextField
@@ -114,12 +142,31 @@ const Corrida = () => {
             />
           </Grid>
           <Grid item xs={12}>
-            <Button variant="contained" onClick={cadastrarCorrida} fullWidth>
-              Cadastrar Corrida
-            </Button>
+            <div className="button-group">
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={cadastrarCorrida}
+                className="btn-cadastrar"
+              >
+                Cadastrar Corrida
+              </Button>
+              <Button
+                variant="outlined"
+                color="secondary"
+                onClick={limparCampos}
+                className="btn-limpar"
+              >
+                Limpar Campos
+              </Button>
+            </div>
           </Grid>
         </Grid>
-        {message && <p className="message">{message}</p>}
+        {message && (
+          <p className={`message ${messageType === 'success' ? 'success' : 'error'}`}>
+            {message}
+          </p>
+        )}
       </div>
     </Container>
   );

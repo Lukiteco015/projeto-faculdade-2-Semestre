@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"; // Certifique-se de importar o useNavigate
+import { useNavigate } from "react-router-dom";
 import './cadastro.css';
 
 const Cadastro = () => {
@@ -10,7 +10,7 @@ const Cadastro = () => {
   const [loading, setLoading] = useState(false);
   const [mensagem, setMensagem] = useState("");
 
-  const navigate = useNavigate(); // Inicializa o hook de navegação
+  const navigate = useNavigate();
 
   const formatarCpf = (value) => {
     value = value.replace(/\D/g, '');
@@ -51,8 +51,6 @@ const Cadastro = () => {
       }
 
       setMensagem("Cadastro realizado com sucesso!");
-
-      // Redireciona para a tela de login após o cadastro bem-sucedido
       navigate("/login");
     } catch (error) {
       console.error("Erro ao enviar os dados:", error);
@@ -63,59 +61,61 @@ const Cadastro = () => {
   };
 
   return (
-    <div>
-      <h1>Cadastro de Motorista</h1>
-      {mensagem && (
-        <p className={`alert ${mensagem.includes("sucesso") ? "success" : "error"}`}>
-          {mensagem}
-        </p>
-      )}
-      <form onSubmit={handleSubmit} id="cadastroForm">
-        <div>
-          <label htmlFor="nome">Nome:</label>
-          <input
-            type="text"
-            id="nome"
-            value={nome}
-            onChange={(e) => setNome(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="cpf">CPF:</label>
-          <input
-            type="text"
-            id="cpf"
-            value={cpf}
-            onChange={handleCpfChange}
-            maxLength="14"
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="email">E-mail:</label>
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="senha">Senha:</label>
-          <input
-            type="password"
-            id="senha"
-            value={senha}
-            onChange={(e) => setSenha(e.target.value)}
-            required
-          />
-        </div>
-        <button type="submit" disabled={loading}>
-          {loading ? "Cadastrando..." : "Cadastrar"}
-        </button>
-      </form>
+    <div className="cadastro-container">
+      <div className="cadastro-box">
+        <h1>Cadastro de Motorista</h1>
+        {mensagem && (
+          <p className={`alert ${mensagem.includes("sucesso") ? "success" : "error"}`}>
+            {mensagem}
+          </p>
+        )}
+        <form onSubmit={handleSubmit}>
+          <div>
+            <label htmlFor="nome">Nome:</label>
+            <input
+              type="text"
+              id="nome"
+              value={nome}
+              onChange={(e) => setNome(e.target.value)}
+              required
+            />
+          </div>
+          <div>
+            <label htmlFor="cpf">CPF:</label>
+            <input
+              type="text"
+              id="cpf"
+              value={cpf}
+              onChange={handleCpfChange}
+              maxLength="14"
+              required
+            />
+          </div>
+          <div>
+            <label htmlFor="email">E-mail:</label>
+            <input
+              type="email"
+              id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+          <div>
+            <label htmlFor="senha">Senha:</label>
+            <input
+              type="password"
+              id="senha"
+              value={senha}
+              onChange={(e) => setSenha(e.target.value)}
+              required
+            />
+          </div>
+          <button type="submit" disabled={loading}>
+            {loading ? "Cadastrando..." : "Cadastrar"}
+          </button>
+        </form>
+      </div>
     </div>
   );
 };

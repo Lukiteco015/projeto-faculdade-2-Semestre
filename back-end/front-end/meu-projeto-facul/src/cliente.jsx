@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import InputMask from 'react-input-mask'; // Biblioteca para máscaras
 import './cliente.css';
 
 const Cliente = () => {
@@ -23,8 +24,8 @@ const Cliente = () => {
         'http://localhost:5000/api/cliente/cadastrar',
         {
           nome,
-          cpf,
-          telefone,
+          cpf: cpf.replace(/\D/g, ''), // Remove máscara para enviar apenas os números
+          telefone: telefone.replace(/\D/g, ''), // Remove máscara para enviar apenas os números
         },
         {
           headers: {
@@ -56,21 +57,25 @@ const Cliente = () => {
         </div>
         <div className="input-group">
           <label>CPF:</label>
-          <input
-            type="text"
+          <InputMask
+            mask="999.999.999-99" // Máscara para CPF
             value={cpf}
             onChange={(e) => setCpf(e.target.value)}
             required
-          />
+          >
+            {(inputProps) => <input {...inputProps} />}
+          </InputMask>
         </div>
         <div className="input-group">
           <label>Telefone:</label>
-          <input
-            type="text"
+          <InputMask
+            mask="(99) 99999-9999" // Máscara para telefone celular
             value={telefone}
             onChange={(e) => setTelefone(e.target.value)}
             required
-          />
+          >
+            {(inputProps) => <input {...inputProps} />}
+          </InputMask>
         </div>
         <button type="submit">Cadastrar Cliente</button>
       </form>
@@ -82,3 +87,4 @@ const Cliente = () => {
 };
 
 export default Cliente;
+

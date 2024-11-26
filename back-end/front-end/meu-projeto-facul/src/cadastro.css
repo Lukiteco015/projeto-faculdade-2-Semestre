@@ -1,109 +1,87 @@
-/* Reset */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: 'Arial', sans-serif;
-  background-color: #f4f7fc;
-  color: #333;
+.cadastro-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  min-height: 100vh;
+  background-color: #f4f4f9;
+  padding: 20px; /* Espaçamento interno para telas menores */
 }
 
-/* Container Principal */
-.container {
-  background-color: #fff;
-  padding: 30px;
+.cadastro-box {
+  background-color: white;
   border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 40px; /* Aumenta o espaçamento interno */
   width: 100%;
-  max-width: 400px;
+  max-width: 800px; /* Aumenta a largura máxima */
+  min-height: 500px; /* Define uma altura mínima maior */
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.2); /* Sombra mais destacada */
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Centraliza o conteúdo verticalmente */
 }
 
 h1 {
+  font-size: 28px; /* Título mais destacado */
+  font-weight: bold;
+  color: #333;
   text-align: center;
-  color: #ffdd00;
-  font-size: 2rem;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
 }
 
-/* Formulário */
 form {
   display: flex;
   flex-direction: column;
-  gap: 20px;
 }
 
-form label {
+form div {
+  margin-bottom: 20px; /* Espaçamento maior entre os campos */
+}
+
+label {
   font-weight: bold;
-  color: #444;
+  color: #555;
+  display: block;
+  margin-bottom: 5px;
 }
 
-form input {
+input {
   width: 100%;
-  padding: 10px;
-  border: 1px solid #ddd;
+  padding: 15px; /* Campos de entrada maiores */
+  border: 1px solid #ccc;
   border-radius: 5px;
-  background-color: #f9f9f9;
-  font-size: 16px;
-  transition: border-color 0.3s ease;
+  font-size: 18px; /* Texto maior nos campos */
+  box-sizing: border-box;
 }
 
-form input:focus {
-  border-color: #ffdd00;
-  outline: none;
-}
-
-/* Botão de envio */
-button[type="submit"] {
-  background-color: #ffdd00;
-  color: #000;
-  padding: 12px;
+button {
+  width: 100%;
+  padding: 15px; /* Botão maior */
+  font-size: 18px; /* Texto maior no botão */
   font-weight: bold;
+  color: white;
+  background-color: #007bff;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease-in-out;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.alert {
+  margin-bottom: 20px;
+  padding: 15px; /* Caixa de alerta maior */
+  font-weight: bold;
+  text-align: center;
   font-size: 16px;
 }
 
-button[type="submit"]:hover {
-  background-color: #e6c200;
+.alert.success {
+  color: green;
 }
 
-button[type="submit"]:disabled {
-  background-color: #ddd;
-  cursor: not-allowed;
-}
-
-/* Mensagens de erro ou sucesso */
-.mensagem {
-  text-align: center;
-  font-weight: bold;
-  color: #fff;
-  padding: 10px;
-  border-radius: 5px;
-  background-color: #ff4d4d;
-  display: none;
-}
-
-.mensagem.sucesso {
-  background-color: #28a745;
-}
-
-.mensagem.ativo {
-  display: block;
-}
-
-/* Responsividade */
-@media (max-width: 600px) {
-  .container {
-    width: 90%;
-    padding: 20px;
-  }
+.alert.error {
+  color: red;
 }
