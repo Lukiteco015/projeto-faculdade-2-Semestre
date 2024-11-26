@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Histórico de Corridas</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <nav class="navbar">
+    <a href="../index.html">Home</a>
+    <a href="rota.html">Calculadora de Rota</a>
+    <a href="clientes.html">Clientes</a>
+    <a href="historico.html" class="active">Histórico</a>
+    <a href="consumo.html">Consumo</a>
+    <a href="veiculos.html">Veículos</a>
+    <a href="corrida.html">Corrida</a>
+    <button id="logoutButton">Logout</button>
+  </nav>
+
+  <main class="content">
+    <h2>Histórico de Corridas</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Cliente</th>
+          <th>Motorista</th>
+          <th>Origem</th>
+          <th>Destino</th>
+          <th>Preço</th>
+          <th>Status</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody id="historicoCorridas"></tbody>
+    </table>
+  </main>
+
+  <script>
+    // Função para exibir corridas
+    function exibirCorridas() {
+      const historicoCorridas = document.getElementById("historicoCorridas");
+      historicoCorridas.innerHTML = ""; // Limpa a tabela antes de renderizar
+      const corridas = JSON.parse(localStorage.getItem("corridas")) || [];
+      corridas.forEach((corrida, index) => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${corrida.cliente}</td>
+          <td>${corrida.motorista}</td>
+          <td>${corrida.origem}</td>
+          <td>${corrida.destino}</td>
+          <td>R$ ${parseFloat(corrida.preco).toFixed(2)}</td>
+          <td style="color: ${corrida.status === "Pendente" ? "orange" : corrida.status === "Concluído" ? "green" : "red"};">
+            ${corrida.status}
+          </td>
+          <td>
+            <button onclick="atualizarStatus(${index}, 'Concluído')">Concluir</button>
+            <button onclick="atualizarStatus(${index}, 'Cancelado')">Cancelar</button>
+          </td>
+        `;
+        historicoCorridas.appendChild(tr);
+      });
+    }
+
+    // Função para atualizar o status de uma corrida
+    function atualizarStatus(index, novoStatus) {
+      const corridas = JSON.parse(localStorage.getItem("corridas")) || [];
+      if (corridas[index]) {
+        corridas[index].status = novoStatus;
+        localStorage.setItem("corridas", JSON.stringify(corridas));
+        exibirCorridas(); // Atualiza a tabela
+      }
+    }
+
+    // Inicializa a página
+    exibirCorridas();
+  </script>
+</body>
+</html>
