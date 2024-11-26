@@ -1,8 +1,10 @@
+import swaggerUi from 'swagger-ui-express'
+import swaggerFile from './swagger.json'
+
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const conectarBanco = require('../config/databaseconfig');
-
 const corridaRoute = require('../routes/corridaRoute');
 const motoristaRoute = require('../routes/motoristaRoute');
 const clienteRoute = require('../routes/clienteRoute');
@@ -29,8 +31,10 @@ app.use('/api/relatorios/ganhos', relatorioGanhosRoute);
 app.use('/api/relatorios/gastos', relatorioGastosRoute);
 app.use('/api/historico', HistoricoDeCorridaRoute);
 
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile)) // Configura o Swagger UI
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);
+  console.log('Documentação disponível em http://localhost:5000/api-docs');
 });
