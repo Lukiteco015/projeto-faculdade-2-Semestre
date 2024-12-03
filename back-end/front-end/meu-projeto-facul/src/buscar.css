@@ -1,0 +1,123 @@
+/* Container principal */
+.container {
+    width: 80%;
+    margin: 20px auto;
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Título */
+  h1 {
+    text-align: center;
+    color: #333;
+  }
+  
+  /* Feedback de carregamento */
+  .loading {
+    text-align: center;
+    font-size: 18px;
+    color: #666;
+  }
+  
+  /* Lista de corridas */
+  .corridas-list {
+    margin-top: 20px;
+  }
+  
+  .corrida-item {
+    background-color: #f9f9f9;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .corrida-item p {
+    margin: 5px 0;
+    font-size: 16px;
+    color: #555;
+  }
+  
+  strong {
+    color: #333;
+  }
+  
+  /* Estilo para os status das corridas */
+  .status {
+    font-weight: bold;
+    padding: 2px 8px;
+    border-radius: 4px;
+    text-transform: capitalize;
+  }
+  
+  .status.pendente {
+    background-color: #f5a623;
+    color: white;
+  }
+  
+  .status.concluida {
+    background-color: #4caf50;
+    color: white;
+  }
+  
+  .status.cancelada {
+    background-color: #e53935;
+    color: white;
+  }
+  
+  /* Botões de ação */
+  .buttons {
+    margin-top: 10px;
+  }
+  
+  button {
+    padding: 8px 15px;
+    margin-right: 10px;
+    font-size: 14px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  
+  .btn-concluir {
+    background-color: #4caf50;
+    color: white;
+  }
+  
+  .btn-concluir:hover {
+    background-color: #45a049;
+  }
+  
+  .btn-cancelar {
+    background-color: #e53935;
+    color: white;
+  }
+  
+  .btn-cancelar:hover {
+    background-color: #d32f2f;
+  }
+  
+  /* Estilo para mensagens de sucesso ou erro */
+  .message {
+    text-align: center;
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+  
+  .message.success {
+    background-color: #4caf50;
+    color: white;
+  }
+  
+  .message.error {
+    background-color: #e53935;
+    color: white;
+  }
+  

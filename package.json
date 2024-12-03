@@ -1,0 +1,36 @@
+{
+  "name": "projeto-faculdade-2-semestre",
+  "version": "1.0.0",
+  "description": "Nosso projeto é uma plataforma que conecta motoristas e passageiros, oferecendo uma experiência de transporte segura e prática. Com funcionalidades como gestão de corridas, navegação integrada, histórico de ganhos e avaliações, o app facilita o dia a dia dos motoristas, garantindo qualidade e conveniência para todos os usuários.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.9.0",
+    "@types/swagger-ui-express": "^4.1.7",
+    "prisma": "^5.22.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.3"
+  },
+  "dependencies": {
+    "axios": "^1.7.7",
+    "bcrypt": "^5.1.1",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "geolib": "^3.3.4",
+    "jsonwebtoken": "^9.0.2",
+    "moment-timezone": "^0.5.46",
+    "mongoose": "^8.8.1",
+    "node-fetch": "^2.7.0",
+    "opencage-api-client": "^1.0.7",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
+  }
+}
