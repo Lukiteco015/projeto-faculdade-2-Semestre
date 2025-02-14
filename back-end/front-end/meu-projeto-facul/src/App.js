@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import Login from "./login.jsx";
 import Home from './index.jsx';
 import Cadastro  from "./cadastro.jsx";
@@ -13,6 +13,7 @@ function App() {
   return (
     <Router>
       <Routes>
+        <Route path="/" element={<Navigate to="/login" />} />
         <Route path="/login" element={<Login />} />
         <Route path="/pagina-inicial" element={<Home />} />
         <Route path="/cadastro" element={<Cadastro />} />

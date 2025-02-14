@@ -8,6 +8,7 @@ const relatorioConsumoSchema = new mongoose.Schema({
     },
     data: {
         type: Date,
+        default: new Date(),
         required: true
     },
     quilometragem: {

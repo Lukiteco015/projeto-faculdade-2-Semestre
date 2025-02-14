@@ -1,13 +1,14 @@
-/* Estilos globais para o corpo da página */
-body {
+/* Estilos específicos para a tela de login */
+body.login-page {
   font-family: 'Roboto', sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #f4f4f4;
+  background: linear-gradient(to bottom right, #6c63ff, #574bdf);
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
+  color: #333;
 }
 
 /* Container principal de login */
@@ -22,24 +23,54 @@ body {
 /* Formulário de login */
 .login-form {
   background-color: #fff;
-  padding: 20px 30px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  padding: 25px 35px;
+  border-radius: 12px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
   width: 100%;
   max-width: 400px;
   text-align: center;
 }
 
 /* Título */
-h1 {
-  font-size: 1.8rem;
+.login-form h1 {
+  font-size: 2rem;
   margin-bottom: 20px;
-  color: #333;
+  color: #2c3e50; /* Cor igual ao da navbar */
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Ícone de login */
+.login-form h1 i {
+  margin-right: 10px;
+  font-size: 1.8rem;
+}
+
+/* Mensagens de feedback */
+.alert {
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  font-size: 0.9rem;
+}
+
+.alert.success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.alert.error {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
 }
 
 /* Grupos de formulário */
 .form-group {
-  margin-bottom: 15px;
+  margin-bottom: 20px;
   text-align: left;
 }
 
@@ -52,27 +83,69 @@ label {
 
 input {
   width: 100%;
-  padding: 10px;
+  padding: 12px;
   border: 1px solid #ccc;
   border-radius: 5px;
   font-size: 1rem;
   outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input:focus {
+  border-color: #6c63ff;
+  box-shadow: 0 0 5px rgba(108, 99, 255, 0.5);
 }
 
 /* Botão de submit */
 .btn-submit {
   width: 100%;
-  padding: 10px 15px;
+  padding: 12px 15px;
   border: none;
   border-radius: 5px;
-  background-color: #6c63ff;
+  background: linear-gradient(to right, #6c63ff, #574bdf);
   color: white;
   font-size: 1rem;
   font-weight: bold;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background 0.3s ease, transform 0.2s ease;
 }
 
 .btn-submit:hover {
-  background-color: #574bdf;
+  background: linear-gradient(to right, #574bdf, #6c63ff);
+  transform: translateY(-2px);
 }
+
+.btn-submit:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+/* Link de cadastro */
+.login-form p a {
+  color: #6c63ff;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+.login-form p a:hover {
+  color: #574bdf;
+}
+
+/* Animação de carregamento */
+.spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.6);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+

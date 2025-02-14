@@ -1,22 +1,21 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { formatInTimeZone } from 'date-fns-tz';
 import './consumo.css';
 
 function CriarRelatorioConsumo() {
   const [data, setData] = useState('');
-  const [quilometragem, setQuilometragem] = useState('');
   const [precoCombustivel, setPrecoCombustivel] = useState('');
-  const [kilometragemPorLitro, setKilometragemPorLitro] = useState('');
+  const [quilometragemPorLitro, setQuilometragemPorLitro] = useState('');
   const [consumoCombustivel, setConsumoCombustivel] = useState('');
   const [relatorioCriado, setRelatorioCriado] = useState(null);
 
   const calcularConsumoCombustivel = () => {
-    const kmPorLitro = parseFloat(kilometragemPorLitro);
+    const kmPorLitro = parseFloat(quilometragemPorLitro);
     const preco = parseFloat(precoCombustivel);
-    const km = parseFloat(quilometragem);
 
-    if (!isNaN(kmPorLitro) && !isNaN(preco) && !isNaN(km)) {
-      const consumo = preco * (km / kmPorLitro);
+    if (!isNaN(kmPorLitro) && !isNaN(preco)) {
+      const consumo = preco * (1 / kmPorLitro);
       setConsumoCombustivel(consumo.toFixed(2));
     }
   };
@@ -27,11 +26,8 @@ function CriarRelatorioConsumo() {
       const response = await axios.post(
         'http://localhost:5000/api/relatorios/consumo/criar',
         {
-          data,
-          quilometragem,
-          consumoCombustivel,
-          motoristaId: 'exemplo-id-do-motorista',
-          veiculoId: 'exemplo-id-do-veiculo',
+          data: new Date(data).toISOString(),
+          consumoCombustivel
         },
         {
           headers: {
@@ -44,6 +40,14 @@ function CriarRelatorioConsumo() {
     } catch (error) {
       console.error('Erro ao criar relatório:', error);
     }
+  };
+
+  const ajustarEFormatarDataBrasileira = (dataString) => {
+    const timeZone = 'America/Sao_Paulo'; // Fuso horário de São Paulo
+    const dataUTC = new Date(dataString);
+
+    // Converte a data UTC para a data no fuso horário local
+    return formatInTimeZone(dataUTC, timeZone, 'dd/MM/yyyy');
   };
 
   return (
@@ -61,15 +65,6 @@ function CriarRelatorioConsumo() {
         </div>
 
         <div className="form-group">
-          <label>Quilometragem:</label>
-          <input
-            type="number"
-            value={quilometragem}
-            onChange={(e) => setQuilometragem(e.target.value)}
-          />
-        </div>
-
-        <div className="form-group">
           <label>Preço do Combustível:</label>
           <input
             type="number"
@@ -82,8 +77,8 @@ function CriarRelatorioConsumo() {
           <label>Quilometragem por Litro:</label>
           <input
             type="number"
-            value={kilometragemPorLitro}
-            onChange={(e) => setKilometragemPorLitro(e.target.value)}
+            value={quilometragemPorLitro}
+            onChange={(e) => setQuilometragemPorLitro(e.target.value)}
           />
         </div>
 
@@ -109,7 +104,7 @@ function CriarRelatorioConsumo() {
         <div className="result">
           <h3>Relatório Criado com Sucesso:</h3>
           <p>
-            <strong>Data:</strong> {relatorioCriado.data}
+            <strong>Data:</strong> {ajustarEFormatarDataBrasileira(relatorioCriado.data)}
           </p>
           <p>
             <strong>Quilometragem:</strong> {relatorioCriado.quilometragem} km

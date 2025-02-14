@@ -1,87 +1,199 @@
-.cadastro-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  background-color: #f4f4f9;
-  padding: 20px; /* Espaçamento interno para telas menores */
+body {
+  overflow-y: auto;
 }
 
+/* Estiliza o fundo da página e a altura da tela */
+.cadastro-wrapper {
+  display: flex; /* Usa Flexbox para centralizar o conteúdo */
+  justify-content: center; /* Centraliza horizontalmente */
+  align-items: center; /* Centraliza verticalmente */
+  min-height: 100vh; /* Garante que a altura da tela seja preenchida */
+  background-color: #6f42c1; /* Cor de fundo roxa */
+  padding: 40px; /* Espaço interno */
+  width: 100%; /* Largura total da tela */
+}
+
+/* Caixa de formulário com bordas arredondadas e sombra */
 .cadastro-box {
-  background-color: white;
-  border-radius: 10px;
-  padding: 40px; /* Aumenta o espaçamento interno */
-  width: 100%;
-  max-width: 800px; /* Aumenta a largura máxima */
-  min-height: 500px; /* Define uma altura mínima maior */
-  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.2); /* Sombra mais destacada */
-  display: flex;
-  flex-direction: column;
+  background-color: #fff; /* Cor branca de fundo */
+  border-radius: 10px; /* Bordas arredondadas */
+  padding: 60px; /* Espaçamento interno */
+  width: 100%; /* Largura total da caixa */
+  max-width: 800px; /* Largura máxima da caixa */
+  min-height: 600px; /* Altura mínima da caixa */
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.1); /* Sombra suave */
+  display: flex; /* Usa Flexbox para organização */
+  flex-direction: column; /* Organiza os itens de forma vertical */
   justify-content: center; /* Centraliza o conteúdo verticalmente */
 }
 
 h1 {
-  font-size: 28px; /* Título mais destacado */
-  font-weight: bold;
-  color: #333;
-  text-align: center;
-  margin-bottom: 30px;
+  font-size: 40px; /* Tamanho do título */
+  font-weight: bold; /* Deixa o texto em negrito */
+  color: #333; /* Cor do texto */
+  padding-bottom: 20px; /* Adiciona um espaço extra abaixo do título */
 }
 
+
+/* Estilo para os campos do formulário */
 form {
   display: flex;
-  flex-direction: column;
+  flex-direction: column; /* Organiza os campos de forma vertical */
 }
 
+/* Espaçamento entre os campos */
 form div {
-  margin-bottom: 20px; /* Espaçamento maior entre os campos */
-}
-
-label {
-  font-weight: bold;
-  color: #555;
-  display: block;
-  margin-bottom: 5px;
-}
-
-input {
-  width: 100%;
-  padding: 15px; /* Campos de entrada maiores */
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 18px; /* Texto maior nos campos */
-  box-sizing: border-box;
-}
-
-button {
-  width: 100%;
-  padding: 15px; /* Botão maior */
-  font-size: 18px; /* Texto maior no botão */
-  font-weight: bold;
-  color: white;
-  background-color: #007bff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease-in-out;
-}
-
-button:hover {
-  background-color: #0056b3;
-}
-
-.alert {
   margin-bottom: 20px;
-  padding: 15px; /* Caixa de alerta maior */
-  font-weight: bold;
-  text-align: center;
-  font-size: 16px;
 }
 
+/* Estilo dos labels (rótulos) */
+label {
+  font-size: 18px;
+  font-weight: bold; /* Deixa o texto do rótulo em negrito */
+  color: #555; /* Cor do texto */
+  display: block; /* Garante que o rótulo ocupe toda a largura */
+  margin-bottom: 5px; /* Espaçamento inferior */
+}
+
+/* Estilo dos campos de input */
+input {
+  width: 100%; /* Campo ocupa toda a largura */
+  padding: 10px; /* Espaçamento interno do campo */
+  border: 1px solid #ccc; /* Borda cinza clara */
+  border-radius: 5px; /* Bordas arredondadas */
+  font-size: 16px; /* Tamanho da fonte */
+  box-sizing: border-box; /* Ajusta o tamanho do campo para incluir bordas e preenchimento */
+  transition: border-color 0.3s ease; /* Transição suave na cor da borda */
+}
+
+/* Estilo do campo de input quando está em foco (clicado) */
+input:focus {
+  border-color: #6f42c1; /* Muda a cor da borda para roxa quando o campo está em foco */
+  outline: none; /* Remove o contorno padrão */
+}
+
+/* Estilo do botão */
+button {
+  width: 100%; /* Largura total do botão */
+  padding: 15px; /* Espaçamento interno */
+  font-size: 18px; /* Tamanho da fonte */
+  font-weight: bold; /* Texto em negrito */
+  color: white; /* Cor do texto (branco) */
+  background-color: #6f42c1; /* Cor de fundo roxa */
+  border: none; /* Remove a borda padrão */
+  border-radius: 5px; /* Bordas arredondadas */
+  cursor: pointer; /* Aparece como ponteiro quando passa o mouse sobre o botão */
+  transition: background-color 0.3s ease-in-out; /* Transição suave na cor de fundo */
+}
+
+/* Estilo do botão quando o mouse passa sobre ele */
+button:hover {
+  background-color: #5a2c91; /* Muda para uma cor mais escura de roxo ao passar o mouse */
+}
+
+/* Estilo do botão desabilitado */
+button:disabled {
+  background-color: #ccc; /* Cor de fundo cinza */
+  cursor: not-allowed; /* Aparece como cursor bloqueado */
+}
+
+/* Estilo para a caixa de senha e o ícone de mostrar/esconder a senha */
+.senha-container {
+  display: flex; /* Usa Flexbox para organizar */
+  flex-direction: column; /* Organiza os itens de forma vertical */
+  align-items: flex-start; /* Alinha à esquerda */
+  position: relative; /* Necessário para posicionar o ícone de olho */
+  width: 100%; /* Largura total */
+}
+
+/* Estilo do campo de senha */
+.senha-container input {
+  width: 100%; /* Campo ocupa toda a largura */
+  padding: 10px; /* Espaçamento interno */
+  height: 40px; /* Altura do campo */
+  font-size: 16px; /* Tamanho da fonte */
+  border: 1px solid #ccc; /* Borda cinza */
+  border-radius: 4px; /* Bordas arredondadas */
+}
+
+/* Estilo do ícone de olho para mostrar/esconder a senha */
+.senha-container .eye-icon {
+  background: transparent; /* Fundo transparente */
+  border: none; /* Sem borda */
+  cursor: pointer; /* Aparece como ponteiro */
+  font-size: 20px; /* Tamanho do ícone */
+  color: #6f42c1; /* Cor roxa */
+  width: 30px; /* Largura do ícone */
+  height: 30px; /* Altura do ícone */
+  display: flex; /* Usa Flexbox para centralizar o ícone */
+  justify-content: center; /* Alinha o ícone horizontalmente */
+  align-items: center; /* Alinha o ícone verticalmente */
+  position: absolute; /* Posiciona o ícone de forma absoluta */
+  right: 5px; /* Distância da borda direita */
+  top: 68%; /* Alinha ao meio do campo */
+  transform: translateY(-50%); /* Ajusta para centralizar verticalmente */
+}
+
+/* Estilo do ícone de olho quando o mouse passa sobre ele */
+.senha-container .eye-icon:hover {
+  color: #5a2c91; /* Cor mais escura ao passar o mouse */
+}
+
+/* Estilo da mensagem de erro ou sucesso */
+.alert {
+  margin-bottom: 20px; /* Espaço inferior */
+  padding: 15px; /* Espaçamento interno */
+  font-weight: bold; /* Texto em negrito */
+  text-align: center; /* Alinha o texto no centro */
+  font-size: 16px; /* Tamanho da fonte */
+  border-radius: 5px; /* Bordas arredondadas */
+}
+
+/* Estilo da mensagem de sucesso */
 .alert.success {
-  color: green;
+  background-color: #28a745; /* Cor de fundo verde */
+  color: white; /* Cor do texto (branco) */
 }
 
+/* Estilo da mensagem de erro */
 .alert.error {
-  color: red;
+  background-color: #dc3545; /* Cor de fundo vermelha */
+  color: white; /* Cor do texto (branco) */
+}
+
+/* Estilo para a seção de requisitos de senha */
+.requisitos-box {
+  background-color: #f0f8ff; /* Fundo azul claro */
+  border: 2px solid #ccc; /* Borda cinza */
+  border-radius: 8px; /* Bordas arredondadas */
+  padding: 20px; /* Espaçamento interno */
+  margin-bottom: 30px; /* Espaço inferior */
+}
+
+/* Estilo do título na seção de requisitos de senha */
+.requisitos-box h2 {
+  font-size: 22px; /* Tamanho da fonte */
+  font-weight: bold; /* Texto em negrito */
+  color: #333; /* Cor do texto */
+  margin-bottom: 15px; /* Espaço inferior */
+}
+
+/* Estilo da lista de requisitos */
+.requisitos-box ul {
+  list-style-type: none; /* Remove os pontos da lista */
+  padding: 0; /* Remove o padding */
+}
+
+/* Estilo para cada item da lista */
+.requisitos-box ul li {
+  font-size: 16px; /* Tamanho da fonte */
+  color: #555; /* Cor do texto */
+  margin-bottom: 10px; /* Espaço inferior */
+}
+
+/* Estilo do ícone de "check" antes de cada item da lista */
+.requisitos-box ul li::before {
+  content: "✔️"; /* Ícone de check */
+  color: green; /* Cor do ícone */
+  margin-right: 10px; /* Espaço à direita do ícone */
 }

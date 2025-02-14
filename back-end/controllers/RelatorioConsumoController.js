@@ -1,28 +1,44 @@
 const jwt = require('jsonwebtoken');
 const RelatorioConsumo = require('../models/RelatorioConsumo');
+const Corrida = require('../models/Corrida');
 require('dotenv').config({ path: '.env'})
 
 const pegarMotoristaIdDoToken = (token) => {
     const JWT_SECRET = process.env.SECRET_KEY;
     try {
         const decoded = jwt.verify(token, JWT_SECRET);
-        return decoded.id; // Retorna o ID do motorista
+        return decoded.id;
+
     } catch (error) {
         throw new Error('Token inválido');
     }
 };
 
-// Criar relatório de consumo
 exports.criarRelatorioConsumo = async (req, res) => {
     try {
-        // Pega o token da requisição
         const token = req.header('Authorization').replace('Bearer ', '');
-        
-        // Obtém o ID do motorista do token
+
         const motoristaId = pegarMotoristaIdDoToken(token);
 
-        // Desestruturação dos dados do corpo da requisição
-        const { data, quilometragem, consumoCombustivel } = req.body;
+        const { data, consumoCombustivel } = req.body;
+
+        const dataInicio = new Date(data);
+        dataInicio.setUTCHours(0, 0, 0, 0);
+        const dataFim = new Date(data);
+        dataFim.setUTCHours(23, 59, 59, 999);
+
+        const corridas = await Corrida.find({
+            datahora: {
+                $gte: dataInicio,
+                $lte: dataFim
+            }
+        });
+
+        if (corridas.length === 0) {
+            return res.status(404).json({ mensagem: 'Nenhuma corrida encontrada para a data especificada' });
+        }
+
+        const quilometragem = corridas.reduce((total, corrida) => total + corrida.distancia, 0);
 
         // Cria o novo relatório
         const novoRelatorio = await RelatorioConsumo.create({

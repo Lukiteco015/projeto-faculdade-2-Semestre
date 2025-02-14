@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import InputMask from 'react-input-mask'; // Biblioteca para máscaras
+import InputMask from 'react-input-mask';
 import './cliente.css';
 
 const Cliente = () => {
@@ -24,8 +24,8 @@ const Cliente = () => {
         'http://localhost:5000/api/cliente/cadastrar',
         {
           nome,
-          cpf: cpf.replace(/\D/g, ''), // Remove máscara para enviar apenas os números
-          telefone: telefone.replace(/\D/g, ''), // Remove máscara para enviar apenas os números
+          cpf: cpf.replace(/\D/g, ''),
+          telefone: telefone.replace(/\D/g, ''),
         },
         {
           headers: {
@@ -43,8 +43,9 @@ const Cliente = () => {
   };
 
   return (
+    <div className='cliente-page'>
     <div className="cliente-container">
-      <h2>Cadastrar Cliente</h2>
+      <h1>Cadastrar Cliente</h1>
       <form onSubmit={handleSubmit} className="cliente-form">
         <div className="input-group">
           <label>Nome:</label>
@@ -78,10 +79,10 @@ const Cliente = () => {
           </InputMask>
         </div>
         <button type="submit">Cadastrar Cliente</button>
-      </form>
-
-      {mensagem && <p className="success-message">{mensagem}</p>}
+        {mensagem && <p className="success-message">{mensagem}</p>}
       {erro && <p className="error-message">{erro}</p>}
+      </form>
+      </div>
     </div>
   );
 };

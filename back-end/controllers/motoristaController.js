@@ -20,7 +20,7 @@ exports.criarMotorista = async (req, res) => {
   } catch (err) {
     res
       .status(500)
-      .json({ mensagem: 'Erro ao criar motorista.', erro: err.message });
+      .json({ mensagem: 'Dados fornecidos não estão corretos!', erro: err.message });
   }
 };
 

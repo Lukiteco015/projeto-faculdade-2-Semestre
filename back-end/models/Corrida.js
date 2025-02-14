@@ -39,7 +39,7 @@ const corridaSchema = new mongoose.Schema({
   },
   datahora: {
     type: Date,
-    default: Date.now,
+    default: new Date(),
     required: true
   },
   tarifaPorKm: {
